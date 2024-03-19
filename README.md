@@ -3,7 +3,7 @@
 ### Goal: Deploy Custom VPC workspace with Unity Catalog on GCP
 - [Documentation](https://docs.gcp.databricks.com/en/administration-guide/workspace/index.html)
 - Video Walkthrough (coming soon..)
-- Check out [GCP Databricks Best practices](https://github.com/bhavink/databricks/blob/master/gcpdb4u/readme.md) for more details
+- Check out [GCP Databricks Best practices](https://github.com/bhavink/databricks/blob/master/gcpdb4u/readme.md) for more detai
 
 ### Pre-requirements:
 - Google account owner permissions or access to service principal with owner permissions 
@@ -41,4 +41,3 @@
 - Verify UC metastore creation: In account console→data tab
 - Verify User group creation: In account console→user management tab
   
- 
