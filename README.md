@@ -41,3 +41,4 @@
 - Verify UC metastore creation: In account console→data tab
 - Verify User group creation: In account console→user management tab
   
+ 
