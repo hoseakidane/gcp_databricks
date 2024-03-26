@@ -8,8 +8,9 @@
 ### Pre-requirements:
 - Google account owner permissions or access to service principal with owner permissions 
 - Install [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli) 
-- Install [Google cli](https://cloud.google.com/sdk/docs/install)
+- Install [Google cli](https://cloud.google.com/sdk/docs/install) or use [Google Cloud Shell](https://cloud.google.com/shell/docs/launching-cloud-shell)  
 - Create a databricks account via [databricks trial](https://docs.gcp.databricks.com/en/administration-guide/account-settings-gcp/create-subscription.html)
+  - This step needs to be done by a Google Cloud billing account administrator (**billing admin**) and they will become the Databricks account owner. The account owner can add more users to the Databricks account.
 
 ### Step 1: Authentication
 ####   Option 1: login authentication via terminal 
@@ -30,9 +31,11 @@
 - Follow the instructions [here](https://github.com/bhavink/databricks/blob/master/gcpdb4u/templates/terraform-scripts/sa-impersonation.md#create-the-service-account). 
 
 ### Step 2: Workspace Deployment
-- Pull this repo to your local machine (## add git link here)
+- Clone the terraform script [repo](https://github.com/hoseakidane/gcp_databricks_terraform_deployment?tab=readme-ov-file#step-1-authentication) to your local machine 
+  - `git clone https://github.com/hoseakidane/gcp_databricks_terraform_deployment.git`
 - Before running the Terraform Script:
     - Check and/or replace all variables with “# replace” comment 
+      - Variables in auto.tfvars files **MUST** be replaced. Replacing other variables is optional.
     - If using key file authentication, place your “caller-sa” key json file inside the project root folder 
 - Run the terraform script with the following terminal commands in the project root folder:
     - `Terraform init`
@@ -41,4 +44,10 @@
 - Verify workspace creation: In account console→workspaces tab
 - Verify UC metastore creation: In account console→data tab
 - Verify User group creation: In account console→user management tab
+- Verify Users/groups assigned to workspace: In workspace->admin settings->Identity and access
+
+### Recommended next steps
+- Setup cluster policies
+- Add users
+
   

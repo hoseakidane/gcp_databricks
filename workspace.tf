@@ -20,26 +20,24 @@ resource "random_string" "databricks_suffix" {
   length  = 2
 }
 
-// the following block is only needed if you are using key file authentication, skip if using login authentication as described in readme
+resource "google_service_account" "databricks" {
+    account_id   = "databricks" #need to use "databricks"
+    display_name = "Databricks SA for GKE nodes"
+    project = var.google_project_name
+}
+output "service_account" {
+    value       = google_service_account.databricks.email
+    description = "Default SA for GKE nodes"
+}
 
-# resource "google_service_account" "databricks" {
-#     account_id   = "databricks3" #need to use "databricks"
-#     display_name = "Databricks SA for GKE nodes"
-#     project = var.google_project_name
-# }
-# output "service_account" {
-#     value       = google_service_account.databricks.email
-#     description = "Default SA for GKE nodes"
-# }
-
-# # assign role to the gke default SA
-# resource "google_project_iam_binding" "databricks_gke_node_role" {
-#   project = "${var.google_project_name}"
-#   role = "roles/container.nodeServiceAccount"
-#   members = [
-#     "serviceAccount:${google_service_account.databricks.email}"
-#   ]
-# }
+# assign role to the gke default SA
+resource "google_project_iam_binding" "databricks_gke_node_role" {
+  project = "${var.google_project_name}"
+  role = "roles/container.nodeServiceAccount"
+  members = [
+    "serviceAccount:${google_service_account.databricks.email}"
+  ]
+}
 
 # Provision databricks network configuration
 resource "databricks_mws_networks" "databricks_network" {
@@ -84,11 +82,15 @@ data "databricks_group" "admins" {
   display_name = "admins"
 }
 
-// comment out if already created (this creates a databricks user using your credentials)
+// creates a databricks user in the workspace using your credentials
 resource "databricks_user" "me" {
   depends_on = [ databricks_mws_workspaces.databricks_workspace ]
   provider   = databricks.workspace
   user_name  = var.databricks_admin_user
+  workspace_access = true
+  allow_cluster_create = true
+  allow_instance_pool_create = true
+  databricks_sql_access = true
 }
 
 

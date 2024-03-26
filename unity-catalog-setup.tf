@@ -110,7 +110,7 @@ resource "google_storage_bucket_iam_member" "unity_sa_reader" {
   member = "serviceAccount:${databricks_metastore_data_access.first.databricks_gcp_service_account[0].email}"
 }
 
-# // Assigns the created metastore to the Databricks workspace
+// Assigns the created metastore to the Databricks workspace
 
 resource "databricks_metastore_assignment" "this" {
   provider             = databricks.accounts
@@ -122,45 +122,69 @@ resource "databricks_metastore_assignment" "this" {
 
 // add additional non-admin groups to account console
 
+// create data eng group
 resource "databricks_group" "data_eng" {
   provider     = databricks.accounts
   display_name = var.group_name1
 }
 
-// add user
+// create data eng user
 resource "databricks_user" "member0" { 
   provider     = databricks.accounts
   user_name = "${random_string.databricks_suffix.result}_dev@databricks.com" # replace with real user email
+  disable_as_user_deletion = false # set to true when adding real users
 }
 
-// add group to account console
+// add user to data eng group 
+resource "databricks_group_member" "eng_member0" { 
+  provider     = databricks.accounts
+  group_id  = databricks_group.data_eng.id
+  member_id = databricks_user.member0.id
+}
 
+// create analyst group
 resource "databricks_group" "data_analytics" {
   provider     = databricks.accounts
   display_name = var.group_name2
 }
 
-// add user
+// create analyst user
 resource "databricks_user" "member1" { 
   provider     = databricks.accounts
   user_name = "${random_string.databricks_suffix.result}_analyst@databricks.com" # replace with real user email
+  disable_as_user_deletion = false # set to true when adding real users
 }
 
+// add user to analyst group 
+resource "databricks_group_member" "analyst_member0" { 
+  provider     = databricks.accounts
+  group_id  = databricks_group.data_analytics.id
+  member_id = databricks_user.member1.id
+}
 
 // assign groups to workspace
 
 resource "databricks_mws_permission_assignment" "add_admin_group" {
   provider = databricks.accounts
   workspace_id = local.workspace_id //databricks_mws_workspaces.this.workspace_id
-  principal_id = databricks_group.data_analytics.id
+  principal_id = databricks_group.uc_admins.id
   permissions  = ["ADMIN"]
 }
 
 // assign groups to workspace
 
-resource "databricks_mws_permission_assignment" "add_non_admin_group" {
+resource "databricks_mws_permission_assignment" "add_non_admin_eng_group" {
   provider = databricks.accounts
   workspace_id = local.workspace_id //databricks_mws_workspaces.this.workspace_id
   principal_id = databricks_group.data_eng.id
   permissions  = ["USER"]
+  depends_on = [databricks_mws_workspaces.databricks_workspace]
+}
+
+resource "databricks_mws_permission_assignment" "add_non_admin_analyst_group" {
+  provider = databricks.accounts
+  workspace_id = local.workspace_id //databricks_mws_workspaces.this.workspace_id
+  principal_id = databricks_group.data_analytics.id
+  permissions  = ["USER"]
+  depends_on = [databricks_mws_workspaces.databricks_workspace]
 }
