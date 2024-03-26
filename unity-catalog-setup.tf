@@ -188,3 +188,4 @@ resource "databricks_mws_permission_assignment" "add_non_admin_analyst_group" {
   permissions  = ["USER"]
   depends_on = [databricks_mws_workspaces.databricks_workspace]
 }
+

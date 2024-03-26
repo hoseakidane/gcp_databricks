@@ -48,6 +48,6 @@
 
 ### Recommended next steps
 - Setup cluster policies
-- Add users 
+- Add users  
 
   
