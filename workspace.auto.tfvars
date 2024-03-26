@@ -2,7 +2,7 @@ databricks_account_id = "<databricks_account_id>" # replace and copy from accoun
 databricks_account_console_url = "https://accounts.gcp.databricks.com"
 
 databricks_workspace_name = "workspace_name" # replace
-databricks_admin_user = "databricks_account_admin" # replace with owner of databricks account
+databricks_admin_user = "databricks_account_admin" # replace with databricks account owner email
 
 google_vpc_id = "<google_vpc_id>" # replace
 gke_node_subnet = "<gke_node_subnet>" # replace
