@@ -1,4 +1,4 @@
-databricks_account_id = "<databricks_account_id>" # get from account console
+databricks_account_id = "<databricks_account_id>" # replace and copy from account console after account creation
 databricks_account_console_url = "https://accounts.gcp.databricks.com"
 
 databricks_workspace_name = "workspace_name" # replace
