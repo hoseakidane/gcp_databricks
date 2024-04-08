@@ -6,7 +6,7 @@ variable group_name2{}
 
 // optional prefix for metastore name
 locals {
-  prefix = "unity"
+  prefix = "unity-hk" # replace 
 }
 
 # extract workspace ID for unity catalog metastore assignment
@@ -24,10 +24,10 @@ resource "databricks_group" "uc_admins" {
 # // create uc admin user1
 resource "databricks_user" "admin_member0" { 
   provider     = databricks.accounts
-  user_name = "hk-test-user@databricks.com" # replace
+  user_name = "${local.prefix}-admin-@databricks.com" # replace with the email of another admin you would like to add
 }
 
-// retrieve existing account admin user from account console
+// retrieve existing account admin user from account console (this is you)
 data "databricks_user" "admin_member1" {
   provider     = databricks.accounts
   user_name = var.databricks_admin_user
@@ -71,7 +71,7 @@ resource "google_storage_bucket" "unity_metastore" {
 # // create metastore
 resource "databricks_metastore" "this" {
   provider      = databricks.accounts
-  name          = "primary-metastore-${var.google_region}-${random_string.databricks_suffix.result}" # replace if needed
+  name          = "primary-metastore-hk-${var.google_region}-${random_string.databricks_suffix.result}" # replace if needed
   storage_root  = "gs://${google_storage_bucket.unity_metastore.name}"
   force_destroy = true
   owner         = var.uc_admin_group_name
@@ -164,11 +164,17 @@ resource "databricks_group_member" "analyst_member0" {
 
 // assign groups to workspace
 
+# 5mn wait time required for identity federation to become available after metastore assignment 
+resource "time_sleep" "wait_6_minutes" {
+  create_duration = "6m"
+}
+
 resource "databricks_mws_permission_assignment" "add_admin_group" {
   provider = databricks.accounts
   workspace_id = local.workspace_id //databricks_mws_workspaces.this.workspace_id
   principal_id = databricks_group.uc_admins.id
   permissions  = ["ADMIN"]
+  depends_on = [time_sleep.wait_6_minutes]
 }
 
 // assign groups to workspace
@@ -178,7 +184,7 @@ resource "databricks_mws_permission_assignment" "add_non_admin_eng_group" {
   workspace_id = local.workspace_id //databricks_mws_workspaces.this.workspace_id
   principal_id = databricks_group.data_eng.id
   permissions  = ["USER"]
-  depends_on = [databricks_mws_workspaces.databricks_workspace]
+  depends_on = [time_sleep.wait_6_minutes]
 }
 
 resource "databricks_mws_permission_assignment" "add_non_admin_analyst_group" {
@@ -186,6 +192,6 @@ resource "databricks_mws_permission_assignment" "add_non_admin_analyst_group" {
   workspace_id = local.workspace_id //databricks_mws_workspaces.this.workspace_id
   principal_id = databricks_group.data_analytics.id
   permissions  = ["USER"]
-  depends_on = [databricks_mws_workspaces.databricks_workspace]
+  depends_on = [time_sleep.wait_6_minutes]
 }
 

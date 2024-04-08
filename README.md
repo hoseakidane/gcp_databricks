@@ -21,7 +21,7 @@
 - Authenticate interactively using user principal (login) and follow the prompt: 
   - `gcloud auth login`
 - Set gcloud configuration to impersonate the privileged-sa service account: 
-  - `gcloud config set auth/impersonate_service_account <insert-privilaged-sa-email>`
+  - `gcloud config set auth/impersonate_service_account "<insert-privilaged-sa-email>"`
 - Set the access token environment variable for creating GCP resources: 
   - `export GOOGLE_OAUTH_ACCESS_TOKEN=$(gcloud auth print-access-token)`
 - You are now authenticated with your GCP account
