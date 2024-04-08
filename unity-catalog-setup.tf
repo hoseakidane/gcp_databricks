@@ -25,6 +25,7 @@ resource "databricks_group" "uc_admins" {
 resource "databricks_user" "admin_member0" { 
   provider     = databricks.accounts
   user_name = "${local.prefix}-admin-@databricks.com" # replace with the email of another admin you would like to add
+  disable_as_user_deletion = false # set to true when adding real users
 }
 
 // retrieve existing account admin user from account console (this is you)
