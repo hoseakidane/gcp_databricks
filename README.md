@@ -1,10 +1,10 @@
 # Databricks GCP Workspace Setup - Terraform 
-
+![Alt text](databricks-non-transparent-logo.webp)
 ### Goal: Deploy Custom VPC workspace with Unity Catalog on GCP
 
 - [Documentation](https://docs.gcp.databricks.com/en/administration-guide/workspace/index.html)
 - Video Walkthrough (coming soon..)
-- Check out [GCP Databricks Best practices](https://github.com/bhavink/databricks/blob/master/gcpdb4u/readme.md) for more details
+- Check out [GCP Databricks Best practices](https://github.com/bhavink/databricks/blob/master/gcpdb4u/readme.md) for more details 
 
 ### Pre-requirements:
 - Google account owner permissions or access to service principal with owner permissions 
@@ -14,6 +14,7 @@
   - This step needs to be done by a Google Cloud billing account administrator (**billing admin**) and they will become the Databricks account owner. The account owner can add more users to the Databricks account.
 
 ### Step 1: Authentication
+![Alt text](authentication-meme.jpeg)
 ####   Option 1: login authentication 
 - Via Terminal/cloud Shell/UI, create a service account named privileged-sa with a “Project Owner” role or skip this step if using an existing SA with those permissions 
   - `gcloud iam service-accounts create privileged-sa --display-name="Privileged Service Account"`
@@ -32,6 +33,7 @@
 - Follow the instructions [here](https://github.com/bhavink/databricks/blob/master/gcpdb4u/templates/terraform-scripts/sa-impersonation.md#create-the-service-account). 
 
 ### Step 2: Workspace Deployment
+![Alt text](databricks-workspace-ui.png)
 - Clone this terraform script [repo](https://github.com/hoseakidane/gcp_databricks_terraform_deployment?tab=readme-ov-file#step-1-authentication) to your local machine or cloud shell 
   - `git clone https://github.com/hoseakidane/gcp_databricks_terraform_deployment.git`
 - Before running the Terraform Script:
@@ -49,6 +51,7 @@
   - Verify cluster/warehouse creation: In compute & SQL Warehouses tab respectively. Initial start up time is longer than usual, wait 10-15 minutes.
 - Once you have completed the verification steps, your workspace is ready for action!
 
+![Alt text](next-step-meme.jpeg)
 ### Recommended next steps
 -   Secure your [GCS buckets](https://docs.gcp.databricks.com/en/administration-guide/workspace/create-workspace.html#secure-the-workspaces-gcs-buckets-in-your-project)
 
@@ -60,9 +63,11 @@
 
 - Enable [Delta Sharing](https://docs.gcp.databricks.com/en/data-sharing/index.html#what-is-delta-sharing) on UC Metastore
 
-  
-### FAQ
 
+----
+
+
+### FAQ
 -   I can't use a local terminal
 
     -   Launch a [Google Cloud shell](https://cloud.google.com/shell/docs/launching-cloud-shell) and clone the repo there.
@@ -81,7 +86,7 @@
 
     -   Most errors are due to authentication or insufficient permissions.
     - Make sure you have completed all the pre-requirement steps before running the script.
-    - Enable debug mode and send screenshots of the entire stack trace to your account team. Explain what steps you have taken prior to the error. 
+    - Enable debug mode and send screenshots of the entire stack trace to your databricks account team. Explain what steps you have taken prior to the error. 
 
 
 -   Will I need to increase my current quotas for Google Cloud resources?
@@ -118,3 +123,6 @@
 -   What is the supported IP address range?
 
     -   10.0.0.0/8, 100.64.0.0/10, 172.16.0.0/12, 192.168.0.0/16, and 240.0.0.0/4
+  
+
+![Alt text](faq-meme.png)
