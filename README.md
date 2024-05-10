@@ -1,5 +1,5 @@
 # Databricks GCP Workspace Setup - Terraform 
-![Alt text](databricks-non-transparent-logo.webp)
+![Alt text](photos/databricks-non-transparent-logo.webp)
 ### Goal: Deploy Custom VPC workspace with Unity Catalog on GCP
 
 - [Documentation](https://docs.gcp.databricks.com/en/administration-guide/workspace/index.html)
@@ -14,7 +14,7 @@
   - This step needs to be done by a Google Cloud billing account administrator (**billing admin**) and they will become the Databricks account owner. The account owner can add more users to the Databricks account.
 
 ### Step 1: Authentication
-![Alt text](authentication-meme.jpeg)
+![Alt text](photos/authentication-meme.jpeg)
 ####   Option 1: login authentication 
 - Via Terminal/cloud Shell/UI, create a service account named privileged-sa with a “Project Owner” role or skip this step if using an existing SA with those permissions 
   - `gcloud iam service-accounts create privileged-sa --display-name="Privileged Service Account"`
@@ -33,7 +33,7 @@
 - Follow the instructions [here](https://github.com/bhavink/databricks/blob/master/gcpdb4u/templates/terraform-scripts/sa-impersonation.md#create-the-service-account). 
 
 ### Step 2: Workspace Deployment
-![Alt text](databricks-workspace-ui.png)
+![Alt text](photos/databricks-workspace-ui.png)
 - Clone this terraform script [repo](https://github.com/hoseakidane/gcp_databricks_terraform_deployment?tab=readme-ov-file#step-1-authentication) to your local machine or cloud shell 
   - `git clone https://github.com/hoseakidane/gcp_databricks_terraform_deployment.git`
 - Before running the Terraform Script:
@@ -51,7 +51,7 @@
   - Verify cluster/warehouse creation: In compute & SQL Warehouses tab respectively. Initial start up time is longer than usual, wait 10-15 minutes.
 - Once you have completed the verification steps, your workspace is ready for action!
 
-![Alt text](next-step-meme.jpeg)
+![Alt text](photos/next-step-meme.jpeg)
 ### Recommended next steps
 -   Secure your [GCS buckets](https://docs.gcp.databricks.com/en/administration-guide/workspace/create-workspace.html#secure-the-workspaces-gcs-buckets-in-your-project)
 
@@ -125,4 +125,4 @@
     -   10.0.0.0/8, 100.64.0.0/10, 172.16.0.0/12, 192.168.0.0/16, and 240.0.0.0/4
   
 
-![Alt text](faq-meme.png)
+![Alt text](photos/faq-meme.png)
